@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>textarea</title>
+	
+	<link rel="stylesheet" th:href="@{/textareaLib/css/codemirror.css}">
+	<link rel="stylesheet" th:href="@{/textareaLib/css/blackboard.css}">
+	<link rel="stylesheet" th:href="@{/textareaLib/css/simplescrollbars.css}">
+    <script th:src="@{/libs/jquery-3.2.1.min.js}" type="text/javascript"></script>
+    <!-- 注意顺序 -->
+    <script th:src="@{/textareaLib/js/codemirror.js}" type="text/javascript"></script>
+    <script th:src="@{/textareaLib/js/simple.js}" type="text/javascript"></script>
+    <script th:src="@{/textareaLib/js/dockerfile.js}" type="text/javascript"></script>
+    <script th:src="@{/textareaLib/js/simplescrollbars.js}" type="text/javascript"></script>
+    <script th:src="@{/textareaLib/js/active-line.js}" type="text/javascript"></script>
+</head>
+<body>
+	<div id="" style="width: 450px;height: 500px;">
+			<textarea id="code" name="code">
+# 制作dockerfile文件
+#
+
+FROM ubuntu:12.10
+MAINTAINER Amer Grgic "amer@livebyt.es"
+WORKDIR /data/ghost
+
+# Install dependencies for nginx installation
+RUN apt-get update
+RUN apt-get install -y python g++ make software-properties-common --force-yes
+RUN add-apt-repository ppa:chris-lea/node.js
+RUN apt-get update
+# Install unzip
+RUN apt-get install -y unzip
+# Install curl
+RUN apt-get install -y curl
+# Install nodejs & npm
+RUN apt-get install -y rlwrap
+RUN apt-get install -y nodejs
+# Download Ghost v0.4.1
+RUN curl -L https://ghost.org/zip/ghost-latest.zip -o /tmp/ghost.zip
+# Unzip Ghost zip to /data/ghost
+RUN unzip -uo /tmp/ghost.zip -d /data/ghost
+# Add custom config js to /data/ghost
+ADD ./config.example.js /data/ghost/config.js
+# Install Ghost with NPM
+RUN cd /data/ghost/ && npm install --production
+# Expose port 2368
+EXPOSE 2368
+# Run Ghost
+CMD ["npm","start"]
+			</textarea>
+		</div>
+		
+	<script type="text/javascript">
+		var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+			lineNumbers: true,
+			mode: "dockerfile",
+			readOnly: true,
+			value: "sss",
+			theme:'blackboard',
+			scrollbarStyle:"overlay",
+			smartIndent: true,
+			styleActiveLine: true,
+		});
+		editor.setSize(650, 600);
+	</script>
+</body>
+</html>
