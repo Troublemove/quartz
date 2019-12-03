@@ -2,12 +2,12 @@
 <html>
 <head>
 <meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>任务管理系统</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="content-Type" content="text/html;charset=UTF-8">
+<title>系统</title>
 <!-- Tell the browser to be responsive to screen width -->
 <meta
-	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
-	name="viewport">
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 <!-- Bootstrap 3.3.7 -->
 <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
 <!-- Font Awesome -->
@@ -241,7 +241,17 @@
 	<script th:src="@{/live2d/waifu-tips.js}"></script>
 	<script th:src="@{/live2d/live2d.js}"></script>
 	<script type="text/javascript">
-		initModel();
+		// live2d
+		//initModel();
+		
+		// 加密
+		function encrypt(word){
+			// 密钥
+	    	var key = CryptoJS.enc.Utf8.parse("ccitcaslibertymc");
+	    	var srcs = CryptoJS.enc.Utf8.parse(word);
+	     	var encrypted = CryptoJS.AES.encrypt(srcs, key, {mode:CryptoJS.mode.ECB,padding: CryptoJS.pad.Pkcs7});
+	     	return encrypted.toString();
+		}
 	</script>
 </body>
 </html>

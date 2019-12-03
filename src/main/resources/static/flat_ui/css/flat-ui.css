@@ -5777,7 +5777,7 @@ fieldset[disabled] .navbar-inverse .navbar-btn.active {
   margin-top: -3px;
 }
 .login {
-  background: url(../img/login/imac.png) 0 0 no-repeat;
+  /*background: url(../img/login/imac.png) 0 0 no-repeat;*/
   background-size: 940px 778px;
   color: #ffffff;
   margin-bottom: 77px;
