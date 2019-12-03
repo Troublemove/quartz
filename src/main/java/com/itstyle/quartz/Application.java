@@ -4,6 +4,8 @@ import org.apache.log4j.Logger;
 import org.quartz.SchedulerException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.support.SpringBootServletInitializer;
 /**
  * 启动类
  * 创建者 科帮网
@@ -18,4 +20,5 @@ public class Application {
 		SpringApplication.run(Application.class, args);
 		logger.info("项目启动 ");
 	}
+	
 }
