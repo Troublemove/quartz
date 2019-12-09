@@ -3,6 +3,7 @@ package com.itstyle.quartz.othertest;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.StringReader;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,29 +14,171 @@ import java.util.Map;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
+import org.xml.sax.InputSource;
 
 import com.alibaba.fastjson.JSONObject;
+
+
 
 /**
  * XML解析
  */
 public class TestXml {
+	
+	public static Map<String, String> protoMap = new HashMap<String, String>();
+
 	public static void main(String[] args) throws Exception {
+		String s = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n" + 
+				"<Protocol id=\"{70badc18-8f7e-438d-95c6-f0e6179cec04}\">\r\n" + 
+				"  <Command>\r\n" + 
+				"    <baseProtocolInfo>\r\n" + 
+				"      <namezh>aaaa</namezh>\r\n" + 
+				"      <name>aaaa</name>\r\n" + 
+				"      <type>aaaa</type>\r\n" + 
+				"      <id>{70badc18-8f7e-438d-95c6-f0e6179cec04}</id>\r\n" + 
+				"      <maxOrderNo>11</maxOrderNo>\r\n" + 
+				"      <length>15</length>\r\n" + 
+				"      <datetime>空</datetime>\r\n" + 
+				"      <constraint />\r\n" + 
+				"      <idents />\r\n" + 
+				"    </baseProtocolInfo>\r\n" + 
+				"    <setList>\r\n" + 
+				"      <set>\r\n" + 
+				"        <id>xf349d435274c43ff96b2ca424368d9d4</id>\r\n" + 
+				"        <repeat>1</repeat>\r\n" + 
+				"        <orderNo>0</orderNo>\r\n" + 
+				"      </set>\r\n" + 
+				"    </setList>\r\n" + 
+				"    <parent>m_sParentId</parent>\r\n" + 
+				"    <children>\r\n" + 
+				"      <child>m_sChildrenID</child>\r\n" + 
+				"    </children>\r\n" + 
+				"    <defaultmsg1>00000065 00000066 0067 68 00000069</defaultmsg1>\r\n" + 
+				"    <defaultmsg>ffffff9b00000066ff999800000069</defaultmsg>\r\n" + 
+				"  </Command>\r\n" + 
+				"  <set id=\"xf349d435274c43ff96b2ca424368d9d4\">\r\n" + 
+				"    <baseInfo>\r\n" + 
+				"      <name>eeee</name>\r\n" + 
+				"      <note />\r\n" + 
+				"      <type />\r\n" + 
+				"      <maxOrderNo>5</maxOrderNo>\r\n" + 
+				"      <length>15</length>\r\n" + 
+				"      <constraint />\r\n" + 
+				"      <repeat>1</repeat>\r\n" + 
+				"    </baseInfo>\r\n" + 
+				"    <fields>\r\n" + 
+				"      <field key=\"a\">\r\n" + 
+				"        <orderNo>0</orderNo>\r\n" + 
+				"        <key>a</key>\r\n" + 
+				"        <fieldDescripId />\r\n" + 
+				"        <note />\r\n" + 
+				"        <fieldType>int</fieldType>\r\n" + 
+				"        <size>1</size>\r\n" + 
+				"        <bitFilled>0</bitFilled>\r\n" + 
+				"        <fieldLength>4</fieldLength>\r\n" + 
+				"        <fieldStartByte>0</fieldStartByte>\r\n" + 
+				"        <defaultValue>101</defaultValue>\r\n" + 
+				"        <judge>0</judge>\r\n" + 
+				"        <FieldSituationType>0</FieldSituationType>\r\n" + 
+				"        <info />\r\n" + 
+				"      </field>\r\n" + 
+				"      <field key=\"b\">\r\n" + 
+				"        <orderNo>1</orderNo>\r\n" + 
+				"        <key>b</key>\r\n" + 
+				"        <fieldDescripId>-b</fieldDescripId>\r\n" + 
+				"        <note />\r\n" + 
+				"        <fieldType>uint</fieldType>\r\n" + 
+				"        <size>1</size>\r\n" + 
+				"        <bitFilled>0</bitFilled>\r\n" + 
+				"        <fieldLength>4</fieldLength>\r\n" + 
+				"        <fieldStartByte>4</fieldStartByte>\r\n" + 
+				"        <defaultValue>102</defaultValue>\r\n" + 
+				"        <judge>0</judge>\r\n" + 
+				"        <FieldSituationType>0</FieldSituationType>\r\n" + 
+				"        <info />\r\n" + 
+				"      </field>\r\n" + 
+				"      <field key=\"c\">\r\n" + 
+				"        <orderNo>2</orderNo>\r\n" + 
+				"        <key>c</key>\r\n" + 
+				"        <fieldDescripId>-c</fieldDescripId>\r\n" + 
+				"        <note />\r\n" + 
+				"        <fieldType>short</fieldType>\r\n" + 
+				"        <size>1</size>\r\n" + 
+				"        <bitFilled>0</bitFilled>\r\n" + 
+				"        <fieldLength>2</fieldLength>\r\n" + 
+				"        <fieldStartByte>8</fieldStartByte>\r\n" + 
+				"        <defaultValue>103</defaultValue>\r\n" + 
+				"        <judge>0</judge>\r\n" + 
+				"        <FieldSituationType>0</FieldSituationType>\r\n" + 
+				"        <info />\r\n" + 
+				"      </field>\r\n" + 
+				"      <field key=\"d\">\r\n" + 
+				"        <orderNo>3</orderNo>\r\n" + 
+				"        <key>d</key>\r\n" + 
+				"        <fieldDescripId>-d</fieldDescripId>\r\n" + 
+				"        <note />\r\n" + 
+				"        <fieldType>char</fieldType>\r\n" + 
+				"        <size>1</size>\r\n" + 
+				"        <bitFilled>0</bitFilled>\r\n" + 
+				"        <fieldLength>1</fieldLength>\r\n" + 
+				"        <fieldStartByte>10</fieldStartByte>\r\n" + 
+				"        <defaultValue>104</defaultValue>\r\n" + 
+				"        <judge>0</judge>\r\n" + 
+				"        <FieldSituationType>0</FieldSituationType>\r\n" + 
+				"        <info />\r\n" + 
+				"      </field>\r\n" + 
+				"      <field key=\"e\">\r\n" + 
+				"        <orderNo>4</orderNo>\r\n" + 
+				"        <key>e</key>\r\n" + 
+				"        <fieldDescripId>-e</fieldDescripId>\r\n" + 
+				"        <note />\r\n" + 
+				"        <fieldType>long</fieldType>\r\n" + 
+				"        <size>1</size>\r\n" + 
+				"        <bitFilled>0</bitFilled>\r\n" + 
+				"        <fieldLength>4</fieldLength>\r\n" + 
+				"        <fieldStartByte>11</fieldStartByte>\r\n" + 
+				"        <defaultValue>105</defaultValue>\r\n" + 
+				"        <judge>0</judge>\r\n" + 
+				"        <FieldSituationType>0</FieldSituationType>\r\n" + 
+				"        <info />\r\n" + 
+				"      </field>\r\n" + 
+				"    </fields>\r\n" + 
+				"  </set>\r\n" + 
+				"  <fieldDesciptionDict />\r\n" + 
+				"  <formulas>\r\n" + 
+				"    <formula>\r\n" + 
+				"      <name>newFormulas1</name>\r\n" + 
+				"      <inputs />\r\n" + 
+				"      <outputs />\r\n" + 
+				"      <formulaStr />\r\n" + 
+				"    </formula>\r\n" + 
+				"  </formulas>\r\n" + 
+				"</Protocol>\r\n" + 
+				"\r\n" + 
+				"";
+		protoMap.put("xmlProto", s);
 		TestXml t = new TestXml();
 		String protomsg = "0000006500000066006768ffffd6fc";
 		String path = "C:\\Users\\ZHANGJX\\Desktop\\rong.xml";
-		String p = t.getProto(path, protomsg);
+		String p = t.getProto(path, "xmlProto", protomsg);
 		System.out.println(p);
+		
 	}
-	
+
 	/**
 	 * 解析报文
-	 * @param path xml文件路径
+	 * 
+	 * @param path     xml文件路径
 	 * @param protomsg 报文
 	 * @throws Exception
 	 */
-	public String getProto(String path, String protomsg) throws Exception {
-		List<Map<Object, Object>> proto = getProtoRule(path);
+	public String getProto(String path, String mapKey, String protomsg) throws Exception {
+		List<Map<Object, Object>> proto = new ArrayList<Map<Object,Object>>();
+		if (protoMap.get(mapKey) != null) {
+			proto = getProtoRule(protoMap.get(mapKey), true);
+		} else {
+			proto = getProtoRule(path, false);
+		}
 		Map<String, String> resMap = new HashMap<String, String>();
 		if (!proto.isEmpty()) {
 			for (Map<Object, Object> map : proto) {
@@ -70,10 +213,10 @@ public class TestXml {
 				resMap.put(key, value);
 			}
 		}
-		
+
 		return JSONObject.toJSONString(resMap);
 	}
-	
+
 	public static short byte2short(byte[] b) {
 		short l = 0;
 		for (int i = 0; i < 2; i++) {
@@ -97,8 +240,8 @@ public class TestXml {
 	}
 
 	/**
-	 * hex转byte数组
-	 * 也能用
+	 * hex转byte数组 也能用
+	 * 
 	 * @param hex
 	 * @return
 	 */
@@ -115,22 +258,30 @@ public class TestXml {
 //		return ret;
 //	}
 
-
 	/**
 	 * 获取报文以及报文规则
 	 * 
-	 * @param path
+	 * @param xmlProto
 	 * @return
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	private List<Map<Object, Object>> getProtoRule(String path) throws Exception {
-		// 1.创建SAXBuilder对象
-		SAXBuilder saxBuilder = new SAXBuilder();
-		// 2.创建输入流
-		InputStream is = new FileInputStream(new File(path));
-		// 3.将输入流加载到build中
-		Document document = saxBuilder.build(is);
+	private List<Map<Object, Object>> getProtoRule(String xmlProto, boolean getMapProto) throws Exception {
+		Document document = new Document();
+		if (getMapProto) {// 使用map中的报文格式
+			System.out.println("使用   map  中的报文格式");
+			InputSource is = new InputSource(new StringReader(xmlProto));
+			document = (new SAXBuilder()).build(is);
+		} else {
+			System.out.println("使用   文件  中的报文格式");
+			// 1.创建SAXBuilder对象
+			SAXBuilder saxBuilder = new SAXBuilder();
+			// 2.创建输入流
+			InputStream is = new FileInputStream(new File(xmlProto));
+			// 3.将输入流加载到build中
+			document = saxBuilder.build(is);
+		}
+		
 		// 4.获取根节点
 		Element rootElement = document.getRootElement();
 		// 5.获取子节点
